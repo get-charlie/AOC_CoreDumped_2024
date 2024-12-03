@@ -12,8 +12,7 @@ int get_num_pos(char* str, int pos)
         }
         pos++;
     }
-    fprintf(stderr, "Error en get_num_pos\n");
-    exit(1);
+    return -1;
 }
 
 int char_to_int(char ch)
@@ -38,8 +37,7 @@ int letra_a_num(char ch)
             return i + 1;
         }
     }
-    fprintf(stderr, "Error en letra_a_num\n");
-    exit(1);
+    return -1;
 }
 
 int main(int argc, char **argv)
@@ -52,7 +50,17 @@ int main(int argc, char **argv)
     int sum = 0;
     char buff[200];
     while(fgets(buff, sizeof(buff), f)){
+        int pos = get_num_pos(buff, 0);
+        if(pos < 0){
+            fprintf(stderr, "Error en get_num_pos.");
+            exit(1);
+        }
         char letra = get_letra(buff, get_num_pos(buff, 0));
+        int num = letra_a_num(letra);
+        if(num < 0){
+            fprintf(stderr, "Error en letra_a_num.");
+            exit(1);
+        }
         sum += letra_a_num(letra);
     }
     printf("Total: %d\n", sum);
